@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Financier</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5; /* Fond gris clair */
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff; /* Fond blanc */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #4CAF50; /* Bordure verte */
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4CAF50; /* Vert pour le titre */
+            margin-bottom: 1rem;
+        }
+
+        .rapport-section {
+            margin-bottom: 2rem;
+        }
+
+        .rapport-section h2 {
+            border-bottom: 2px solid #4CAF50; /* Bordure verte pour le sous-titre */
+            padding-bottom: 0.5rem;
+            color: #4CAF50; /* Vert pour le sous-titre */
+            font-size: 1.5rem;
+        }
+
+        .montant-total {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #4CAF50; /* Vert pour le montant total */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #4CAF50; /* Vert pour l'en-tête */
+            color: #fff; /* Texte blanc pour l'en-tête */
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9; /* Fond gris clair pour les lignes paires */
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        ul li:last-child {
+            border-bottom: none;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #777; /* Gris pour le texte de données absentes */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport Financier</h1>
+
+        <div class="rapport-section">
+            <h2>Ventes Totales</h2>
+            <p class="montant-total">Montant Total: {{ ventes_totales|floatformat:2 }} FCFA</p>
+        </div>
+
+        <div class="rapport-section">
+            <h2>Répartition des Ventes par Plat</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plat</th>
+                        <th>Quantité Vendue</th>
+                        <th>Montant Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in repartition_par_plat %}
+                        <tr>
+                            <td>{{ item.plat__nom }}</td>
+                            <td>{{ item.quantite_vendue }}</td>
+                            <td>{{ item.montant_total|floatformat:2 }} FCFA</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="3" class="no-data">Aucune donnée trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="rapport-section">
+            <h2>Plats les Plus Populaires</h2>
+            <ul>
+                {% for plat in plats_populaires %}
+                    <li>{{ plat.plat__nom }} - Quantité Vendue: {{ plat.quantite_vendue }}</li>
+                {% empty %}
+                    <li class="no-data">Aucun plat populaire trouvé.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="rapport-section">
+            <h2>Variations des Ventes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for variation in variations_ventes %}
+                        <tr>
+                            <td>{{ variation.day }}</td>
+                            <td>{{ variation.total|floatformat:2 }} FCFA</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="no-data">Aucune variation trouvée.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="rapport-section">
+            <h2>Revenus par Catégorie</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Montant Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for categorie in revenus_par_categorie %}
+                        <tr>
+                            <td>{{ categorie.plat__categorie__name }}</td>
+                            <td>{{ categorie.montant_total|floatformat:2 }} FCFA</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="2" class="no-data">Aucun revenu par catégorie trouvé.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

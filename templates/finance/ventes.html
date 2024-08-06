@@ -1,0 +1,216 @@
+<style>
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: #ffffff; /* Blanc pour le fond */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre portée */
+  }
+
+  h1 {
+    color: #0033cc; /* Bleu pour le titre */
+    text-align: center;
+  }
+
+  form {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #FFD700; /* Or pour le bouton */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #FFC107; /* Teinte plus foncée de l'or au survol */
+  }
+
+  .error {
+    color: red;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+
+  table, th, td {
+    border: 1px solid #ddd;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #0033cc; /* Bleu pour l'en-tête */
+    color: white; /* Texte blanc pour l'en-tête */
+  }
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: #ddd;
+  }
+
+  .section {
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #f9f9f9; /* Gris clair pour le fond des sections */
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Ombre portée plus légère pour les sections */
+  }
+
+  .section h2 {
+    background-color: #0033cc; /* Bleu pour le fond du titre de section */
+    color: #ffffff; /* Texte blanc pour le titre de section */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0;
+    font-size: 1.5em;
+  }
+
+  .section p {
+    font-size: 1.1em;
+    color: #333;
+    margin: 10px 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul li {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+  }
+</style>
+
+<div class="container">
+  <h1>Consultation des Ventes</h1>
+  <form method="get" action=".">
+    {{ form.as_p }}
+    <button type="submit">Consulter</button>
+  </form>
+
+  {% if error_message %}
+    <div class="error">
+      <p>{{ error_message }}</p>
+    </div>
+  {% endif %}
+
+  {% if ventes_totales %}
+    <div class="section">
+      <h2>Variations des Ventes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for variation in variations_ventes %}
+            <tr>
+              <td>{{ variation.day }}</td>
+              <td>{{ variation.total|floatformat:2 }} FCFA</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2">Aucune variation trouvée.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Répartition des Ventes par Plat</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Plat</th>
+            <th>Quantité Vendue</th>
+            <th>Montant Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in repartition_par_plat %}
+            <tr>
+              <td>{{ item.plat__nom }}</td>
+              <td>{{ item.quantite_vendue }}</td>
+              <td>{{ item.montant_total|floatformat:2 }} FCFA</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">Aucune vente trouvée pour la période sélectionnée.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Revenus par Catégorie</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Catégorie</th>
+            <th>Montant Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for categorie in revenus_par_categorie %}
+            <tr>
+              <td>{{ categorie.plat__categorie__name }}</td>
+              <td>{{ categorie.montant_total|floatformat:2 }} FCFA</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="2">Aucun revenu par catégorie trouvé.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Plats les Plus Populaires</h2>
+      <ul>
+        {% for plat in plats_populaires %}
+          <li>{{ plat.plat__nom }} - Quantité Vendue: {{ plat.quantite_vendue }}</li>
+        {% empty %}
+          <li>Aucun plat populaire trouvé.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Ventes Totales</h2>
+      <p>Montant Total: {{ ventes_totales|floatformat:2 }} FCFA</p>
+    </div>
+
+  {% else %}
+    <p style="color: red;">Aucune vente trouvée pour la période sélectionnée.</p>
+  {% endif %}
+</div>

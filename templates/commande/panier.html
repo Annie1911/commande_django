@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier</title>
+    <style>
+        /* Reset some default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9F9F9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid #E0E0E0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        header .logo img {
+            height: 50px;
+        }
+
+        header nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        header nav a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+        }
+
+        table th {
+            background-color: #F5F5F5;
+        }
+
+        table td {
+            text-align: center;
+        }
+
+        .btn-decrement, .btn-increment, .btn-delete, .btn-update {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-decrement:hover, .btn-increment:hover, .btn-delete:hover, .btn-update:hover {
+            background-color: #388E3C;
+        }
+
+        .total {
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #FFA000;
+            background-color: #FFEB3B;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .btn-confirm {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+
+        .btn-confirm:hover {
+            background-color: #388E3C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Panier</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Commentaire</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commande_plat in commande_plats %}
+                <tr>
+                    <td>{{ commande_plat.plat.nom }}</td>
+                    <td>{{ commande_plat.plat.prix }}</td>
+                    <form method="post" action="{% url 'modifier_commande' commande_plat.id %}">
+                        {% csrf_token %}
+                        <td>
+                            <input type="number" name="quantite" value="{{ commande_plat.quantite }}" min="1">
+                        </td>
+                        <td>
+                            <textarea name="commentaire">{{ commande_plat.commentaire }}</textarea>
+                        </td>
+                        <td>{{ commande_plat.montant_plat_commande|floatformat:2 }} francs</td>
+                        <td>
+                            <button type="submit" class="btn-update">Mettre à jour</button>
+                        </td>
+                    </form>
+                    <td>  
+                        <a href="{% url 'commande_annuler' commande.id %}">❌</a>  
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">Votre panier est vide.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div>
+            <div>
+                {% if commande_plats %}
+                <p><strong>Montant Total: {{ total|floatformat:2 }} francs</strong></p>
+                <form method="post" action="{% url 'confirmer_commande' commande_id=commande.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-confirm">Confirmer la commande</button>
+                </form>
+                {% endif %}
+            </div>
+            <a href="{% url 'consulter_menu' %}">Retour</a>
+        </div>
+    </div>
+</body>
+</html>

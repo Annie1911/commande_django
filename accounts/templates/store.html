@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Store</title>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    
+
+    <style>
+        body {
+            background-color: #ffffff; /* Fond blanc */
+            color: #000; /* Texte noir */
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background-color: #f0f0f0; /* Gris très clair pour l'en-tête */
+            padding: 2rem 0;
+        }
+        .site-heading {
+            color: #4CAF50; /* Vert pour le titre */
+        }
+        .site-heading-upper {
+            color: #333; /* Gris foncé pour le sous-titre */
+        }
+        nav {
+            background-color: #f0f0f0; /* Gris très clair pour la barre de navigation */
+        }
+        .navbar-brand, .nav-link {
+            color: #4CAF50; /* Vert pour les liens de navigation */
+        }
+        .navbar-brand:hover, .nav-link:hover {
+            color: #333; /* Gris foncé au survol */
+        }
+        .cta {
+            background-color: #ffffff; /* Fond blanc pour la section CTA */
+            padding: 4rem 0;
+        }
+        .cta-inner {
+            background-color: #f9f9f9; /* Gris clair pour le fond de la carte CTA */
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+        }
+        .section-heading {
+            color: #4CAF50; /* Vert pour le titre de la section */
+        }
+        .list-hours-item {
+            color: #333; /* Gris foncé pour les heures d'ouverture */
+        }
+        footer {
+            background-color: #f0f0f0; /* Gris très clair pour le pied de page */
+            padding: 2rem 0;
+        }
+        footer p {
+            color: #333; /* Gris foncé pour le texte du pied de page */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3">A Free Place </span>
+            <span class="site-heading-lower">Store</span>
+        </h1>
+    </header>
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="{% url 'store' %}">Store</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="page-section cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <div class="cta-inner bg-faded text-center rounded">
+                        <h2 class="section-heading mb-5">
+                            <span class="section-heading-upper">Come On In</span>
+                            <span class="section-heading-lower">We're Open</span>
+                        </h2>
+                        <ul class="list-unstyled list-hours mb-5 text-left mx-auto">
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Sunday
+                                <span class="ms-auto">Closed</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Monday
+                                <span class="ms-auto">7:00 AM to 8:00 PM</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Tuesday
+                                <span class="ms-auto">7:00 AM to 8:00 PM</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Wednesday
+                                <span class="ms-auto">7:00 AM to 8:00 PM</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Thursday
+                                <span class="ms-auto">7:00 AM to 8:00 PM</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Friday
+                                <span class="ms-auto">7:00 AM to 8:00 PM</span>
+                            </li>
+                            <li class="list-unstyled-item list-hours-item d-flex">
+                                Saturday
+                                <span class="ms-auto">9:00 AM to 5:00 PM</span>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer text-faded text-center py-5">
+        <div class="container"><p class="m-0 small">Copyright &copy; C3AI 2023</p></div>
+    </footer>

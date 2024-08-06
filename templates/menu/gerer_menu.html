@@ -1,0 +1,201 @@
+{% extends 'base_menu.html' %}
+
+{% block title %}Gestion des Menus{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Gestion des Menus</h1>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5; /* Gris clair */
+                color: #333; /* Gris foncé */
+            }
+
+            .container {
+                width: 100%;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            .menu-item {
+                display: flex;
+                align-items: center;
+                background-color: #ffffff; /* Blanc */
+                border-radius: 15px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 10px;
+                flex-direction: column;
+            }
+
+            .menu-item img {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                margin-right: 20px;
+            }
+
+            .menu-item .text {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .menu-item h4 {
+                font-size: 18px;
+                color: #004d00; /* Vert foncé */
+                margin-bottom: 5px;
+            }
+
+            .menu-item p {
+                font-size: 14px;
+                color: #777; /* Gris clair */
+            }
+
+            .actions {
+                display: flex;
+                justify-content: center;
+                margin-top: 10px;
+                gap: 10px;
+            }
+
+            .actions a {
+                color: #004d00; /* Vert foncé */
+                text-decoration: none;
+                padding: 8px;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+                font-size: 16px;
+            }
+
+            .actions a:hover {
+                background-color: rgba(0, 77, 0, 0.2); /* Teinte de vert foncé */
+                color: #000;
+            }
+
+            .edit-btn {
+                background-color: #28a745; /* Vert pour Modifier */
+                color: white;
+            }
+
+            .edit-btn:hover {
+                background-color: #218838; /* Vert plus foncé pour survol */
+            }
+
+            .delete-btn {
+                background-color: #dc3545; /* Rouge pour Supprimer */
+                color: white;
+            }
+
+            .delete-btn:hover {
+                background-color: #c82333; /* Rouge plus foncé pour survol */
+            }
+
+            .category h4 {
+                font-size: 18px;
+                color: #004d00; /* Vert foncé */
+                margin-bottom: 5px;
+            }
+
+            .plat {
+                font-size: 14px;
+                color: #777; /* Gris clair */
+                list-style-type: none;
+                padding: 10px 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-bottom: 1px solid #eee;
+            }
+
+            .plat h2 {
+                color: #000; /* Noir pour le nom du plat */
+                margin: 0;
+            }
+
+            .plat p {
+                margin: 0;
+            }
+
+            .non-disponible {
+                color: red; 
+                text-color: red; 
+            }
+
+            .btn-container {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 14px;
+                border-radius: 5px;
+                text-decoration: none;
+                color: white;
+                background-color: #004d00; /* Vert foncé */
+                transition: background-color 0.3s ease;
+                margin-bottom: 10px;
+                display: block;
+                text-align: center;
+            }
+
+            .btn:hover {
+                background-color: #003300; /* Vert plus foncé */
+            }
+
+            .category .btn {
+                background-color: #333; /* Noir */
+                color: #fff; /* Blanc */
+            }
+
+            .category .btn:hover {
+                background-color: #222; /* Noir plus foncé */
+            }
+        </style>
+
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
+        
+        <div class="btn-container">
+            <a href="{% url 'commandes_reçu' %}" class="btn">Retour sur les Commandes</a>
+            <a href="{% url 'ajouter_plat' %}" class="btn">Ajouter un plat</a>
+        </div>
+
+        <div>
+          
+            {% for category in categories %}
+                <div class="menu-item">
+                    <div class="text">
+                        <h2>{{ category.name }}</h2>
+                        <a href="{% url 'delete_all_plats_in_category' category.id %}" class="btn delete-btn">Supprimer tous les plats de cette catégorie</a>
+                        {% for plat in category.plats.all %}
+                        <div class="plat">
+                            <h4>{{ plat.nom }}</h4>
+                            <h6>Prix: {{ plat.prix }} francs</h6>
+                            {% if not plat.disponible %}
+                            <p class="non-disponible">(Non disponible)</p>
+                            {% endif %}
+                            
+                            <div class="actions">
+                                <a href="{% url 'modifier_plat' plat.id %}" class="edit-btn">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="{% url 'supprimer_plat' plat.id %}" class="delete-btn">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

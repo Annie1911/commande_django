@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="{% static 'js/csrf_protection.js' %}"></script>
+    <title>Commandes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5; /* Gris clair */
+            color: #333; /* Gris foncé */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            color: #4CAF50; /* Vert pour les titres */
+            text-align: center;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Georgia', serif;
+        }
+
+        h1 {
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Ajuste la taille des cases */
+            gap: 10px; /* Réduit l'espace entre les éléments */
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: #ffffff; /* Blanc */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px; /* Réduit l'espace intérieur */
+            transition: background-color 0.3s;
+            text-align: center; /* Centre le texte */
+        }
+
+        .grid-item:hover {
+            background-color: #f9f9f9; /* Gris très clair */
+        }
+
+        .grid-item a {
+            text-decoration: none;
+            color: #4CAF50; /* Vert pour les liens */
+            font-weight: bold;
+            font-size: 1em; /* Ajuste la taille de la police */
+        }
+
+        .grid-item a:hover {
+            color: #333; /* Gris foncé au survol */
+        }
+
+        .grid-item p {
+            margin: 5px 0; /* Réduit les marges */
+            color: #666; /* Gris moyen */
+            font-size: 0.9em; /* Ajuste la taille de la police */
+        }
+
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 30px auto;
+            max-width: 800px;
+            background-color: #ffffff; /* Blanc */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0; /* Gris clair */
+        }
+
+        th {
+            background-color: #4CAF50; /* Vert pour l'en-tête de table */
+            color: #ffffff; /* Blanc pour le texte */
+            font-size: 1.1em;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* Gris très clair */
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background-color: #4CAF50; /* Vert pour le pied de table */
+            color: #ffffff; /* Blanc pour le texte */
+        }
+
+        tfoot td[colspan="4"] {
+            text-align: right;
+        }
+
+        button, .btn-retour {
+            background-color: #4CAF50; /* Vert pour les boutons */
+            color: #ffffff; /* Blanc pour le texte */
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+            font-family: 'Georgia', serif;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button:hover, .btn-retour:hover {
+            background-color: #333; /* Gris foncé au survol */
+            color: #ffffff; /* Blanc pour le texte au survol */
+            transform: translateY(-3px);
+        }
+
+        .btn-retour {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-deconnecter {
+            background-color: #f44336; /* Rouge pour le bouton de déconnexion */
+            color: #ffffff; /* Blanc pour le texte */
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-deconnecter:hover {
+            background-color: #d32f2f; /* Rouge foncé au survol */
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <h1>Commandes en Attente de Paiement</h1>
+    <div class="grid-container">
+        {% for commande in commandes %}
+        <div class="grid-item">
+            <a href="{% url 'detail_commande' commande.id %}">Commande n°{{ commande.id }}</a>
+            <p>
+                Client: {{ commande.client.username }} 
+            </p>
+            <p>
+                Montant: {{ commande.montant_total }} francs
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Commandes Payées</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Plat</th>
+                <th>Quantité</th>
+                <th>Prix Unitaire</th>
+                <th>Montant</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for commande in commandes_payees_details %}
+            {% for detail in commande.details %}
+            <tr>
+                {% if forloop.first %}
+                    <td rowspan="{{ commande.details|length }}">{{ commande.date_commande }}</td>
+                {% endif %}
+                <td>{{ detail.plat_nom }}</td>
+                <td>{{ detail.quantite }}</td>
+                <td>{{ detail.prix_unitaire }} francs</td>
+                <td>{{ detail.montant }} francs</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4"><strong>Total Montant</strong></td>
+                <td>{{ total_montant_payes }} francs</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a href="{% url 'logout' %}" class="btn-deconnecter">Déconnecter</a>
+
+    <script>
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/commande/');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const message = data.message;
+            alert(message);
+            location.reload();
+        };
+    </script>
+    <script src="{% static 'js/csrf_protection.js' %}"></script>
+</body>
+</html>

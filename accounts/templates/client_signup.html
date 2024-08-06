@@ -1,0 +1,127 @@
+{% load static %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Client</title>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.css">
+    <style>
+        body {
+            background-color: #FFFFFF; /* Fond blanc */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #4CAF50; /* Vert pour le titre */
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9); /* Fond blanc légèrement transparent */
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #9E9E9E; /* Bordure gris clair */
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            color: #4CAF50; /* Vert pour les labels */
+            font-weight: bold;
+        }
+
+        .form-control {
+            border: 1px solid #9E9E9E; /* Bordure gris clair pour les champs */
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            color: #000000; /* Texte noir pour les champs */
+        }
+
+        .form-control:focus {
+            border-color: #4CAF50; /* Bordure verte au focus */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Ombre verte au focus */
+        }
+
+        form button {
+            background-color: #4CAF50; /* Vert pour le bouton */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        form button:hover {
+            background-color: #388E3C; /* Vert plus foncé au survol */
+        }
+
+        form a {
+            color: #4CAF50; /* Vert pour le lien */
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        form a:hover {
+            color: #388E3C; /* Vert plus foncé au survol */
+        }
+
+        p {
+            font-size: 16px;
+            color: #4CAF50; /* Vert pour le texte du paragraphe */
+        }
+
+        .form-text {
+            color: #9E9E9E; /* Gris pour les messages d'aide */
+        }
+    </style>
+</head>
+<body>
+    <h1>Inscription Client</h1>
+    <form method="post" action="{% url 'client_signup' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username" class="form-label">Username:</label>
+            {{ form.username|add_class:"form-control" }}
+            <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+        </div>
+        <div class="form-group">
+            <label for="email" class="form-label">Email address:</label>
+            {{ form.email|add_class:"form-control" }}
+        </div>
+        <div class="form-group">
+            <label for="password1" class="form-label">Password:</label>
+            {{ form.password1|add_class:"form-control" }}
+            <div class="form-text">Your password can’t be too similar to your other personal information. Your password must contain at least 8 characters. Your password can’t be a commonly used password. Your password can’t be entirely numeric.</div>
+        </div>
+        <div class="form-group">
+            <label for="password2" class="form-label">Password confirmation:</label>
+            {{ form.password2|add_class:"form-control" }}
+            <div class="form-text">Enter the same password as before, for verification.</div>
+        </div>
+        <button type="submit">S'inscrire</button>
+    </form>
+    <p>Déjà inscrit ? <a href="{% url 'login_page' %}">Connectez-vous</a></p>
+    <script src="{% static 'js/crsf_protection.js' %}"></script>
+</body>
+</html>

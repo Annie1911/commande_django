@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Liste des Catégories{% endblock %}</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5; /* Gris clair */
+            color: #333; /* Gris foncé */
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #004d00; /* Vert foncé */
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff; /* Blanc */
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #004d00; /* Vert foncé pour le texte */
+        }
+
+        a {
+            color: #004d00; /* Vert foncé */
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            color: #003300; /* Vert plus foncé */
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .button-container a {
+            display: inline-block;
+            background-color: #004d00; /* Vert foncé */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button-container a:hover {
+            background-color: #003300; /* Vert plus foncé */
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #333; /* Noir */
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #222; /* Noir plus foncé */
+        }
+
+        .fa-edit, .fa-trash-alt {
+            color: #004d00; /* Vert foncé */
+            margin-right: 5px;
+        }
+    </style>
+    <!-- Inclusion de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <h1>Liste des Catégories</h1>
+    <div class="button-container">
+        <a href="{% url 'ajouter_categorie' %}">Ajouter une nouvelle catégorie</a>
+    </div>
+    <ul>
+        {% for categorie in categories %}
+        <li>
+            <h2>{{ categorie.name }}</h2>
+            <a href="{% url 'modifier_categorie' categorie.id %}"><i class="fas fa-edit"></i></a>
+            <a href="{% url 'supprimer_categorie' categorie.id %}"><i class="fas fa-trash-alt"></i></a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'gerer_menu' %}" class="back-button">Retour à la gestion du menu</a>
+    <a href="{% url 'commandes_reçu' %}" class="back-button">Retour sur les Commandes</a>
+</body>
+</html>

@@ -1,0 +1,137 @@
+{% extends "base_menu.html" %}
+
+{% block title %}Détails des Commandes{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #004d00;
+            margin: 20px 0;
+        }
+
+        #commandes-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        #commandes-container ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        #commandes-container ul li {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #333;
+            position: relative;
+        }
+
+        #commandes-container ul li ul {
+            margin-top: 10px;
+        }
+
+        #commandes-container ul li ul li {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            padding: 8px;
+            color: #004d00;
+        }
+
+        #commandes-container form {
+            margin-top: 10px;
+        }
+
+        #commandes-container button {
+            background-color: #004d00;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #commandes-container button:hover {
+            background-color: #003300;
+        }
+
+        #commandes-container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        #commandes-container textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
+
+    <h1>Détails des Commandes</h1>
+    <div id="commandes-container">
+        <ul>
+            {% for commande in commandes %}
+            <li>
+                Commande n°{{ commande.id }} - Client: {{ commande.client.username }} - Montant: {{ commande.montant_total }} francs
+                <ul>
+                    {% for commande_plat in commande.commandeplat_set.all %}
+                    <li>{{ commande_plat.plat.nom }} - {{ commande_plat.quantite }} unités - {{ commande_plat.plat.prix }} francs</li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{% url 'annuler_commande' commande.id %}">
+                    {% csrf_token %}
+                    <label for="motif">Motif de l'annulation:</label>
+                    <textarea id="motif" name="motif" required></textarea>
+                    <button type="submit">Annuler la commande</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/commandes/');
+
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+
+            // Recharger les commandes après une notification
+            loadCommandes();
+        };
+
+        function loadCommandes() {
+            fetch('{% url "commandes_reçu" %}')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('commandes-container').innerHTML = data;
+                });
+        }
+    </script>
+{% endblock %}

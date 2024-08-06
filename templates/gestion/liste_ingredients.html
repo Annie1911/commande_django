@@ -1,0 +1,166 @@
+{% extends "base_menu.html" %}
+
+{% block title %}Liste des Ingrédients{% endblock %}
+
+{% block content %}
+<style>
+    h1 {
+        font-size: 2em;
+        color: #333333; /* Noir pour le titre */
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #28a745; /* Vert pour le bouton Ajouter */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #218838; /* Teinte plus foncée du vert au survol */
+    }
+
+    .alert-warning {
+        background-color: #f8f9fa; /* Gris clair pour le fond de l'alerte */
+        color: #333333; /* Noir pour le texte */
+        border-color: #ddd; /* Bordure grise */
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd; /* Bordure grise pour les cellules */
+    }
+
+    thead.thead-dark th {
+        background-color: #333333; /* Noir pour l'en-tête de table */
+        color: #ffffff; /* Texte blanc pour l'en-tête */
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9; /* Lignes de table alternées en gris clair */
+    }
+
+    .table-danger {
+        background-color: #f8d7da; /* Fond rose pâle pour les lignes avec stock faible */
+        color: #721c24; /* Texte pour les lignes avec stock faible */
+    }
+
+    .btn-warning {
+        background-color: #28a745; /* Vert pour le bouton Modifier */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #218838; /* Teinte plus foncée du vert au survol */
+    }
+
+    .btn-danger {
+        background-color: #343a40; /* Noir pour le bouton Supprimer */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #23272b; /* Teinte plus foncée du noir au survol */
+    }
+
+    .btn-info {
+        background-color: #28a745; /* Vert pour le bouton Ajuster Stock */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-info:hover {
+        background-color: #218838; /* Teinte plus foncée du vert au survol */
+    }
+
+    .btn-back {
+        color: #ffffff; /* Blanc pour le texte */
+        background-color: #000000; /* Noir pour le fond */
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 20px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn-back:hover {
+        background-color: #333333; /* Noir foncé pour le survol */
+    }
+</style>
+
+<h1>Liste des Ingrédients</h1>
+<a href="{% url 'ajouter_ingredient' %}" class="btn btn-primary mb-3">Ajouter un Ingrédient</a>
+
+{% if ingredients_faibles %}
+<div class="alert alert-warning">
+    <strong>Attention!</strong> Les niveaux de stock de certains ingrédients sont faibles.
+</div>
+{% endif %}
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nom</th>
+            <th>Quantité</th>
+            <th>Unité de Mesure</th>
+            <th>Prix Unitaire</th>
+            <th>Prix Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingredient in ingredients %}
+        <tr {% if ingredient.est_stock_faible %}class="table-danger"{% endif %}>
+            <td>{{ ingredient.nom }}</td>
+            <td>{{ ingredient.quantite }}</td>
+            <td>{{ ingredient.unite_de_mesure }}</td>
+            <td>{{ ingredient.prix_unitaire }} francs</td>
+            <td>{{ ingredient.calculer_prix_total }} francs</td>
+            <td>
+                <a href="{% url 'modifier_ingredient' ingredient.pk %}" class="btn btn-warning btn-sm">Modifier</a>
+                <a href="{% url 'supprimer_ingredient' ingredient.pk %}" class="btn btn-danger btn-sm">Supprimer</a>
+                <a href="{% url 'ajuster_stock' ingredient.pk %}" class="btn btn-info btn-sm">Ajuster Stock</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'commandes_reçu' %}" class="btn-back">Retour</a>
+{% endblock %}

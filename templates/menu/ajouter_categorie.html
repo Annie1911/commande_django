@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter une Catégorie</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .modal {
+            background-color: #ffffff; /* Blanc */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+        .modal h1 {
+            color: #333333; /* Noir */
+        }
+        .modal form {
+            margin: 20px 0;
+        }
+        .modal button, .modal .btn-return {
+            background-color: #28a745; /* Vert */
+            color: #ffffff; /* Blanc */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none; /* Supprime le soulignement du texte pour les liens */
+            display: inline-block; /* Permet au lien de se comporter comme un bouton */
+        }
+        .modal button:hover, .modal .btn-return:hover {
+            background-color: #218838; /* Vert foncé */
+        }
+        .modal .btn-return {
+            background-color: #333333; /* Noir */
+        }
+        .modal .btn-return:hover {
+            background-color: #1a1a1a; /* Noir foncé */
+        }
+    </style>
+</head>
+<body>
+    <div class="modal">
+        <h1>Ajouter une Catégorie</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Ajouter</button>
+        </form>
+        <a href="{% url 'gerer_categories' %}" class="btn-return">Retour à la liste des catégories</a>
+    </div>
+</body>
+</html>

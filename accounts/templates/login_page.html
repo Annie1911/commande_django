@@ -1,0 +1,132 @@
+<!-- templates/login_page.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.css">
+    <style>
+        body {
+            background-color: #f0f0f0; /* Gris très clair pour le fond */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000; /* Texte noir pour contraste */
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            max-width: 500px;
+            width: 100%;
+            background-color: #ffffff; /* Fond blanc pour la carte */
+        }
+        .card-header {
+            background-color: #4CAF50; /* Vert pour le header */
+            color: #ffffff; /* Texte blanc pour le header */
+            text-align: center;
+            padding: 15px 0;
+        }
+        .form-control {
+            background-color: #ffffff; /* Fond blanc pour les champs */
+            border: 2px solid #9E9E9E; /* Bordure gris clair pour les champs */
+            border-radius: 5px;
+            color: #000; /* Texte noir */
+        }
+        .form-control:focus {
+            border-color: #4CAF50; /* Bordure verte au focus */
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25); /* Ombre verte au focus */
+        }
+        .btn-primary {
+            background-color: #4CAF50; /* Vert pour le bouton */
+            border: 2px solid #4CAF50;
+            border-radius: 25px;
+            color: #ffffff; /* Texte blanc */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #388E3C; /* Vert plus foncé au survol */
+            color: #ffffff; /* Texte blanc au survol */
+        }
+        .is-invalid {
+            border-color: #dc3545 !important;
+            background-color: #ffffff !important; /* Fond blanc */
+        }
+        .invalid-feedback {
+            display: block;
+            width: 100%;
+            margin-top: .25rem;
+            font-size: 80%;
+            color: #dc3545;
+        }
+        a {
+            color: #4CAF50; /* Vert pour les liens */
+            text-decoration: none; /* Retirer la soulignure des liens */
+        }
+        a:hover {
+            color: #388E3C; /* Vert plus foncé au survol des liens */
+        }
+        .back-link {
+            color: #4CAF50; /* Vert pour le lien de retour */
+            
+        }
+        .back-link:hover {
+            color: #388E3C; /* Vert plus foncé au survol du lien de retour */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card p-4">
+                    <div class="card-header">
+                        <h2 class="mb-0">Connexion</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        <form method="post" class="text-lg">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_username" class="form-label">Nom d'utilisateur:</label>
+                                <input type="text" id="id_username" name="username" class="form-control {% if form.errors.username %}is-invalid{% endif %}" value="{{ form.username.value }}">
+                                {% if form.errors.username %}
+                                    <div class="invalid-feedback">
+                                        {{ form.errors.username }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_password" class="form-label">Mot de passe:</label>
+                                <input type="password" id="id_password" name="password" class="form-control {% if form.errors.password %}is-invalid{% endif %}">
+                                <button type="submit" class="btn btn-primary">Se connecter</button>
+                                {% if form.errors.password %}
+                                    <div class="invalid-feedback">
+                                        {{ form.errors.password }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <a href="{% url 'password_reset' %}" class="back-link">Réinitialiser votre mot de passe</a>
+                                <a href="{% url 'home' %}" class="back-link">Retour à la page d'accueil</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/crsf_protection.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

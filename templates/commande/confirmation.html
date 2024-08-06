@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation de Commande</title>
+    <style>
+        /* Style général de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF; /* Fond blanc */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style du conteneur principal */
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #FFFFFF; /* Fond blanc */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #4CAF50; /* Bordure verte */
+        }
+
+        /* Style du titre */
+        h1 {
+            color: #4CAF50; /* Vert pour le titre */
+            margin-bottom: 20px;
+        }
+
+        /* Style des paragraphes */
+        p {
+            font-size: 1.2em;
+            color: #333333; /* Gris foncé pour le texte */
+            margin-bottom: 10px;
+        }
+
+        /* Style du lien de retour */
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #FFFFFF; /* Texte blanc pour le lien */
+            background-color: #4CAF50; /* Vert pour le bouton */
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #45a049; /* Teinte plus foncée du vert au survol */
+        }
+
+        /* Style pour les informations de la commande */
+        .order-summary {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .order-summary p {
+            margin: 5px 0;
+        }
+
+        .order-summary .highlight {
+            color: #4CAF50; /* Vert pour les éléments importants */
+            font-weight: bold;
+        }
+
+        /* Style pour le bouton */
+        .button {
+            background-color: #4CAF50; /* Vert pour le bouton */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .button:hover {
+            background-color: #45a049; /* Teinte plus foncée du vert au survol */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Confirmation de Commande</h1>
+        <div class="order-summary">
+            <p>Votre commande a été confirmée avec succès !</p>
+            <p>Numéro de commande : <span class="highlight">{{ commande.id }}</span></p>
+            <p>Total : <span class="highlight">{{ commande.montant_total|floatformat:2 }} francs</span></p>
+        </div>
+        <a href="{% url 'consulter_menu' %}" class="button">OK</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+{% extends "base_menu.html" %}
+{% block title %}Ajuster le Stock{% endblock %}
+{% block content %}
+<style>
+    .form-container {
+        margin: 20px auto;
+        max-width: 600px;
+        background-color: #ffffff; /* Blanc pour le fond du formulaire */
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #000000; /* Noir pour la bordure */
+    }
+
+    .form-container h1 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #000000; /* Noir pour le titre */
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #000000; /* Noir pour les labels */
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #000000; /* Noir pour la bordure */
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    button {
+        background-color: #28a745; /* Vert pour le bouton */
+        color: #ffffff; /* Blanc pour le texte */
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+    }
+
+    button:hover {
+        background-color: #1e7e34; /* Vert foncé pour le survol */
+    }
+
+    .btn-secondary {
+        color: #28a745; /* Vert pour le texte du bouton Annuler */
+        text-decoration: none;
+        background-color: transparent; /* Fond transparent pour le lien */
+        border: 1px solid #28a745; /* Bordure verte pour le bouton Annuler */
+        padding: 10px 20px;
+        border-radius: 5px;
+        display: inline-block;
+        transition: background-color 0.3s, color 0.3s;
+        margin-top: 20px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #28a745; /* Vert pour le fond au survol */
+        color: #ffffff; /* Blanc pour le texte au survol */
+    }
+</style>
+
+<div class="form-container">
+    <h1>Ajuster le Stock pour {{ ingredient.nom }}</h1>
+    {% if message %}
+        <div class="alert alert-info">{{ message }}</div>
+    {% endif %}
+
+    <form method="post" action="{% url 'ajuster_stock' ingredient.pk %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="quantite_sortie">Quantité à retirer :</label>
+            <input type="number" step="0.01" min="0" class="form-control" id="quantite_sortie" name="quantite_sortie" required>
+        </div>
+        <button type="submit" >Ajuster le Stock</button>
+        <a href="{% url 'liste_ingredients' %}" class="btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

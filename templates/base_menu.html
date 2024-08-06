@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Gestion de Cantine{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+    <script src="{% static 'js/csrf_protection.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'base_menu.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/csrf_setup.js' %}"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff; /* Blanc */
+            color: #333; /* Gris foncé */
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar {
+            background-color: #4CAF50; /* Vert pour la navbar */
+            color: #fff; /* Blanc pour le texte */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: #fff; /* Blanc pour les liens */
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: block;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #333; /* Noir au survol */
+            color: #4CAF50; /* Vert pour le texte au survol */
+        }
+
+        .navbar .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .navbar .user-menu img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .navbar .user-menu .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff; /* Blanc pour le menu déroulant */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .navbar .user-menu .dropdown-content a {
+            color: #333; /* Gris foncé pour les éléments du menu */
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .user-menu .dropdown-content a:hover {
+            background-color: #f5f5f5; /* Gris très clair au survol */
+        }
+
+        .navbar .user-menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .content {
+            margin-top: 60px; /* Ajuster pour éviter le chevauchement avec la navbar */
+            padding: 20px;
+            background-color: #fff; /* Blanc */
+            color: #333; /* Gris foncé */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50; /* Vert pour le footer */
+            color: #fff; /* Blanc pour le texte */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'gerer_menu' %}"><i class="fas fa-bars"></i> Gérer les Menus</a>
+        <a href="{% url 'gerer_categories' %}"><i class="fas fa-list-alt"></i> Catégories</a>
+        <a href="{% url 'liste_ingredients' %}"><i class="fas fa-box"></i> Gestion Stock</a>
+        <a href="{% url 'historique_mouvements_stock' %}"><i class="fas fa-box"></i> Mouvement Stock</a>
+        <div class="user-menu"> 
+            <img src="{% static 'user.jpg' %}" alt="User Image">
+            <div class="dropdown-content">
+                <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                <a href="{% url 'edit_preferences' %}"><i class="fas fa-cogs"></i> Thème</a>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer>
+            <p>&copy; 2024 Gestion de Cantine</p>
+        </footer>
+    </div>
+</body>
+</html>

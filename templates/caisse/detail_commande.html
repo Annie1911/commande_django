@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de la Commande</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff; /* Blanc */
+            color: #333333; /* Gris foncé */
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50; /* Vert */
+            color: #ffffff; /* Blanc */
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #4CAF50; /* Vert */
+            margin-top: 20px;
+            font-size: 1.5em;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        ul li {
+            background-color: #f5f5f5; /* Gris très clair */
+            border: 1px solid #e0e0e0; /* Gris clair */
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #4CAF50; /* Vert */
+            color: #ffffff; /* Blanc */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Vert plus foncé */
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            color: #4CAF50; /* Vert */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f5f5f5; /* Gris très clair */
+            border: 1px solid #e0e0e0; /* Gris clair */
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Détails de la Commande</h1>
+    </header>
+
+    <main>
+        <p>Détails de la Commande n°{{ commande.id }}</p>
+        <p>Client: {{ commande.client.username }}</p>
+        <p>Montant Total: {{ commande.montant_total }} francs</p>
+        <p>Date de Commande: {{ commande.date_commande }}</p>
+
+        <h2>Plats Commandés</h2>
+        <ul>
+            {% for commande_plat in commande.commandeplat_set.all %}
+            <li>
+                {{ commande_plat.plat.nom }} - {{ commande_plat.plat.prix }} francs - 
+                {{ commande_plat.quantite }} unités
+            </li>
+            {% endfor %}
+        </ul>
+
+        <form method="post" action="{% url 'confirmer_paiement' commande.id %}">
+            {% csrf_token %}
+            <button type="submit">Confirmer le Paiement</button>
+        </form>
+
+        <a href="{% url 'recevoir_commandes' %}">Retour à la liste des commandes</a>
+
+        <div id="commandes"></div>
+    </main>
+
+    <script>
+        var socket = new WebSocket('ws://' + window.location.host + '/ws/commandes/');
+
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var message = data['message'];
+
+            var commandesDiv = document.getElementById('commandes');
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            messageDiv.textContent = message;
+            commandesDiv.appendChild(messageDiv);
+        };
+
+        socket.onerror = function(e) {
+            console.error('WebSocket error:', e);
+        };
+
+        socket.onclose = function(e) {
+            console.warn('WebSocket closed:', e);
+        };
+    </script>
+    <script src="{% static 'js/crsf_protection.js' %}"></script>
+</body>
+</html>

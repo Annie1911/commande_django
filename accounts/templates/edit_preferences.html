@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier vos préférences</title>
+    <style>
+        body {
+            background-color: #FFFFFF; /* Fond blanc */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #4CAF50; /* Vert pour le titre */
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.9); /* Fond blanc légèrement transparent */
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #9E9E9E; /* Bordure gris clair */
+        }
+
+        .form-control {
+            border: 1px solid #9E9E9E; /* Bordure gris clair pour les champs */
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            color: #000000; /* Texte noir pour les champs */
+        }
+
+        .form-control:focus {
+            border-color: #4CAF50; /* Bordure verte au focus */
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Ombre verte au focus */
+        }
+
+        button {
+            background-color: #4CAF50; /* Vert pour le bouton */
+            color: #FFFFFF;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            max-width: 150px;
+        }
+
+        button:hover {
+            background-color: #388E3C; /* Vert plus foncé au survol */
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier vos préférences</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enregistrer</button>
+    </form>
+    
+    <script src="{% static 'js/crsf_protection.js' %}"></script>
+</body>
+</html>

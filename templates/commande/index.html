@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    <link rel="stylesheet" href="{% static 'css/tooplate-antique-cafe.css' %}">
+
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #ffffff; /* Blanc pour le fond */
+            margin: 0;
+            padding: 0;
+        }
+        #intro {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("{% static 'assets/img/antique-cafe-bg-01.jpg' %}") no-repeat center center;
+            background-size: cover;
+            color: #ffffff; /* Texte blanc pour le contraste */
+            text-align: center;
+        }
+        .bg-black {
+            background-color: #333333; /* Gris très foncé */
+        }
+        .bg-opacity-70 {
+            background-color: rgba(0, 0, 0, 0.7); /* Noir avec opacité de 70% */
+        }
+        .text-white {
+            color: #ffffff; /* Blanc pour le texte */
+        }
+        .tm-text-green {
+            color: #4CAF50; /* Vert */
+        }
+        .tm-logo-font {
+            font-family: 'Oswald', sans-serif, 'Arial', sans-serif;
+        }
+        .bg-black a {
+            color: #4CAF50; /* Vert pour le texte du lien */
+            text-decoration: none; /* Retirer la soulignure des liens */
+        }
+        .bg-black a:hover {
+            color: #ffffff; /* Blanc pour le texte du lien au survol */
+        }
+        .bg-black a i {
+            color: #4CAF50; /* Vert pour l'icône */
+        }
+        .bg-black a:hover i {
+            color: #ffffff; /* Blanc pour l'icône au survol */
+        }
+        .btn-primary {
+            background-color: #4CAF50; /* Vert pour le bouton */
+            color: #ffffff; /* Texte blanc pour le bouton */
+            border-radius: 5px; /* Coins arrondis pour le bouton */
+            padding: 0.5rem 1rem; /* Padding pour le bouton */
+            text-decoration: none; /* Retirer la soulignure des liens */
+            display: inline-block; /* Affichage en ligne pour le bouton */
+            transition: background-color 0.3s, color 0.3s; /* Transition douce pour le survol */
+        }
+        .btn-primary:hover {
+            background-color: #45a049; /* Teinte plus foncée du vert au survol */
+            color: #ffffff; /* Texte blanc au survol */
+        }
+    </style>
+</head>
+<body>    
+    <!-- Intro -->
+    <div id="intro" class="parallax-window" data-parallax="scroll" data-image-src="{% static 'assets/img/antique-cafe-bg-01.jpg' %}">
+        
+        <div class="container mx-auto px-2 tm-intro-width">
+            <div class="sm:pb-60 sm:pt-48 py-20">
+                <div class="bg-black bg-opacity-70 p-12 mb-5">
+                    <h1 class="text-white text-5xl tm-logo-font mb-5">Food Menu</h1>
+                    <p class="tm-text-green text-2xl">Your daily energy booster</p>
+                </div>    
+                <div class="text-center">
+                    <a href="{% url 'consulter_menu' %}" class="btn-primary flex justify-center items-center py-6 px-8 rounded-lg font-semibold text-2xl">
+                        <i class="fas fa-coffee mr-3"></i>
+                        <span>Let's explore...</span>                        
+                    </a>
+                </div>                
+            </div>
+        </div>        
+    </div>
+    
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'js/parallax.min.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "base_menu.html" %}
+
+{% block content %}
+<style>
+    h1 {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        color: #333333; /* Noir pour le titre */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background-color: #ffffff; /* Fond blanc pour la table */
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    thead {
+        background-color: #333333; /* Noir pour l'en-tête */
+        color: #ffffff; /* Texte blanc pour l'en-tête */
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd; /* Bordure grise pour les cellules */
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Fond gris clair pour les lignes paires */
+    }
+
+    tbody tr:hover {
+        background-color: #e0e0e0; /* Fond gris clair au survol */
+    }
+
+    p {
+        color: #333333; /* Noir pour le texte */
+        font-size: 1em;
+        margin-top: 20px;
+    }
+
+    .btn-secondary {
+        background-color: #28a745; /* Vert pour le bouton Retour */
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .btn-secondary:hover {
+        background-color: #218838; /* Vert foncé pour le survol */
+    }
+</style>
+
+<h1>Historique des Mouvements de Stock</h1>
+
+{% if mouvements %}
+  <table>
+    <thead>
+      <tr>
+        <th>Ingrédient</th>
+        <th>Type</th>
+        <th>Quantité</th>
+        <th>Date</th>
+        <th>Commentaire</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for mouvement in mouvements %}
+        <tr>
+          <td>{{ mouvement.ingredient.nom }}</td>
+          <td>{{ mouvement.mouvement_type }}</td>
+          <td>{{ mouvement.quantite }}</td>
+          <td>{{ mouvement.date_mouvement|date:"d/m/Y H:i" }}</td>
+          <td>{{ mouvement.commentaire }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Aucun mouvement de stock enregistré.</p>
+{% endif %}
+
+<a href="{% url 'commandes_reçu' %}" class="btn-secondary">Retour Commande</a>
+{% endblock %}

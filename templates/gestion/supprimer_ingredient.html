@@ -1,0 +1,69 @@
+{% extends "base_menu.html" %}
+
+{% block title %}Supprimer un Ingrédient{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff; /* Fond blanc */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        color: #333333; /* Noir pour le titre */
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.2em;
+        color: #333333; /* Noir pour le texte */
+        margin-bottom: 20px;
+    }
+
+    .btn-danger {
+        background-color: #28a745; /* Vert pour le bouton Supprimer */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #1e7e34; /* Teinte plus foncée du vert au survol */
+    }
+
+    .btn-secondary {
+        background-color: #333333; /* Noir pour le bouton Annuler */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background-color: #1a1a1a; /* Teinte plus foncée du noir au survol */
+    }
+</style>
+
+<div class="container">
+    <h1>Supprimer un Ingrédient</h1>
+    <p>Êtes-vous sûr de vouloir supprimer l'ingrédient "{{ ingredient.nom }}" ?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Supprimer</button>
+        <a href="{% url 'liste_ingredients' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

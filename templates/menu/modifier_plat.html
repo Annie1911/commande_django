@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier le Plat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5; /* Gris clair */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333; /* Gris foncé pour le texte */
+        }
+
+        h1 {
+            color: #004d00; /* Vert foncé */
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #ffffff; /* Blanc */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        form button {
+            background-color: #004d00; /* Vert foncé */
+            color: #ffffff; /* Blanc */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #003300; /* Vert foncé plus profond */
+        }
+
+        form a {
+            display: inline-block;
+            color: #004d00; /* Vert foncé */
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        form a:hover {
+            color: #003300; /* Vert foncé plus profond */
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier le Plat</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Modifier</button>
+    </form>
+    <a href="{% url 'gerer_menu' %}">Retour à la gestion du menu</a>
+</body>
+</html>
