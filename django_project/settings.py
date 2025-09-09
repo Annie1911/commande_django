@@ -92,12 +92,8 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gestion_mutualite',
-        'USER': 'root',
-        'PASSWORD': "Ci3nax33",
-        'HOST': '127.0.0.1',  # Ou l'adresse IP de votre serveur MySQL
-        'PORT': '3310',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
